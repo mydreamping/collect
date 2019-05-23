@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>
+        js判断对象数组中是否存在某个对象
+    </p>
+    <p>
+        <button id="first">第一种方法</button>
+        <button id="second">第二种方法</button>
+        <button id="three">第三种方法</button>
+        <button id="change">更改data</button>
+    </p>
+    <script>
+        // 第一种:如果要判断数组中是否存在某个元素的话很好判断，直接用数组的indexOf方法就好，存在返回当前索引不存在返回-1
+
+        var first = document.getElementById('first')
+        var second = document.getElementById('second')
+        var three = document.getElementById('three')
+        var change = document.getElementById('change')
+        first.onclick = function () {
+            var arr = [1, 2, 3, 4]
+            console.log("数字3当前索引值为" + arr.indexOf(3)) // 2
+            console.log("数字5不存在于数组，所以返回" + arr.indexOf(5)) // -1
+        }
+
+
+        //第二种:一个常用方法是设一个flag来做判断的标识
+        let flag = true;
+        let msg = '';
+        let data = {
+            id: 1,
+            name: "小明"
+        }
+
+
+        second.onclick = function () {
+            let arr2 = [{
+                id: 1,
+                name: "小明"
+            }, {
+                id: 2,
+                name: '小萍'
+            }]
+
+            if (arr2.length < 6) {
+                arr2.forEach(item => {
+                    if (data.id == item.id) { // 对象里的唯一标识id
+                        msg = '请勿重复添加！'
+                        flag = false;
+                    }
+                })
+            } else {
+                msg = '最多添加6个！'
+                flag = false;
+            }
+            if (flag) { // 如果满足条件-数组长度小于6，当前添加的值在数组里不存在，就把值添加进去
+                arr2.push(data)
+            } else { // 否则弹出提示信息
+                alert(msg)
+            }
+            console.log(arr2)
+        }
+
+        var addFlag = true;
+        change.onclick = function () {
+            if (addFlag) {
+                data["id"] = 3;
+                data["name"] = "小红"
+                addFlag = false
+            } else {
+                data["id"] = 1;
+                data["name"] = "小明"
+            }
+        }
+
+
+        // 第三种:利用数组API some来判断
+        three.onclick = function () {
+            var arr3 = [{
+                id:1,
+                name:'小明'
+            },{
+                id:2,
+                name:"张三"
+            },{
+                id:4,
+                name:'李四'
+            }]
+
+            var result = arr3.some(item => {
+                if (item.id == data.id) {
+                    return true
+                }
+            })
+            console.log(result) // 如果arr数组对象中含有id与data的id相等,就会返回true，否则返回false
+            if (!result) { // 如果不存在
+                arr3.push(data)
+                console.log(arr3)
+                // do something
+            }
+        }
+        
+
+    </script>
+</body>
+
+</html>
